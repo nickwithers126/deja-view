@@ -18,10 +18,19 @@ def center_window(window):
     y = (window.winfo_screenheight() // 2) - (h // 2)
     window.geometry(f"{w}x{h}+{x}+{y}")
 
+# helper to get correct path whether run normally or from PyInstaller
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 # main app window
 root = tk.Tk()
 root.title("Déjà View - Photo Deduper")
-root.iconbitmap("icon.ico")
+root.iconbitmap(resource_path("icon.ico"))
 root.geometry("500x250")
 center_window(root)
 
@@ -106,7 +115,7 @@ def review_duplicates():
     # create new window
     review_window = tk.Toplevel(root)
     review_window.title("Déjà View - Review Duplicates")
-    review_window.iconbitmap("icon.ico")
+    review_window.iconbitmap(resource_path("icon.ico"))
     review_window.geometry("1200x725")
     center_window(review_window)
 
